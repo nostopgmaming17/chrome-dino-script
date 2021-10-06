@@ -1,1 +1,68 @@
-(_p=>{(_=>{for(let i in _){_[i]()}})([()=>{const C={speedInc:0.5};(_=>{for(let i in _){_[i]()}})([()=>{_p.sc=(_,__)=>{C[_]=__}},()=>{_p.gc=_=>{if(!_){return(C)}else{return C[_]}}}])},()=>{const g=Runner.instance_.gameOver,T=()=>{return(g==Runner.instance_.gameOver)};_p.speed=s=>{Runner.instance_.currentSpeed+=s};_p.t=()=>{if(T()){Runner.instance_.gameOver=()=>{}}else{Runner.instance_.gameOver=g}}},()=>{document.addEventListener('keydown',k=>{if(k.key=='f'){try{Runner.instance_.stop();eval(prompt('Execute:'))}catch(_){alert(_)}}else if(k.key=='g'){_p.t()}else if(k.key=='c'){const _=prompt(`Val name (${Object.keys(_p.gc())})`),__=prompt(`Val value (currently: ${_p.gc(_)})`);Runner.instance_.stop();_p.sc(_,__)}})},()=>{const S=[false,false];document.addEventListener('keydown',k=>{if(k.key=='+'){S[0]=true}else if(k.key=='-'){S[1]=true}});document.addEventListener('keyup',k=>{if(k.key=='+'){S[0]=false}else if(k.key=='-'){S[1]=false}});setInterval(()=>{let i=_p.gc('speedInc');let _=S[0]*i-S[1]*i;_p.speed(_)},100)}])})({})
+(()=>{
+  console.log(`Controls:
+  speed up (hold) = +
+  slow down (hold) = -
+  toggle godmode = g
+  edit config = c
+  execute code = f`)
+  if (window.originalG) {
+    
+  } else {
+    window.originalG = Runner.instance_.gameOver;
+  }
+  const g = window.originalG,
+        isgodmode = () => {
+          return Runner.instance_.gameOver == g;
+        },
+        togglegodmode = () => {
+          if (isgodmode()) {
+            Runner.instance_.gameOver = () => {};
+          } else {
+            Runner.instance_.gameOver = g;
+          }
+        }, speed = s => {
+          Runner.instance_.currentSpeed += s;
+        },
+        hold = [false,false],
+        config = {speedInc: 0.5};
+  document.addEventListener('keydown', k=> {
+    switch (k.key) {
+      case '+':
+        hold[0] = true;
+        break;
+      case '-':
+        hold[1] = true;
+        break;
+      case 'g':
+        togglegodmode();
+        break;
+      case 'c':
+        Runner.instance_.stop();
+        const k = prompt(`Val name (${Object.keys(config)})`),
+              v = prompt(`Val value (${config[k]})`);
+        config[k] = v;
+        break;
+      case 'f':
+        try {
+          Runner.instance_.stop();
+          eval(prompt('Execute:'));
+        } catch (err) {
+          alert(err);
+        }
+        break;
+    }
+  });
+  document.addEventListener('keyup', k=>{
+    switch (k.key) {
+      case '+':
+        hold[0] = false;
+        break;
+      case '-':
+        hold[1] = false;
+        break;
+    }
+  });
+  setInterval(()=>{
+    speed(hold[0]*config.speedInc - hold[1]*config.speedInc);
+  },100)
+})()
