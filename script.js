@@ -45,8 +45,10 @@
         break;
       case keys.config:
         Runner.instance_.stop();
-        const k = prompt(`Val name (${Object.keys(config)})`),
-              v = prompt(`Val value (${config[k]})`);
+        const k = prompt(`Val name (${Object.keys(config)})`)
+        if (!k) return;
+        const v = prompt(`Val value (${config[k]})`);
+        if (!v) return;
         config[k] = v;
         break;
       case keys.execute:
