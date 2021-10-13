@@ -30,6 +30,11 @@
         }, speed = s => {
           Runner.instance_.currentSpeed += s;
         },
+        stop = () => {
+          Runner.instance_.stop();
+          hold[0] = false;
+          hold[1] = false;
+        },
         hold = [false,false],
         config = {speedInc: 0.5};
   document.addEventListener('keydown', k=> {
@@ -44,7 +49,7 @@
         togglegodmode();
         break;
       case keys.config:
-        Runner.instance_.stop();
+        stop();
         const k = prompt(`Val name (${Object.keys(config)})`)
         if (!k) return;
         const v = prompt(`Val value (${config[k]})`);
@@ -53,7 +58,7 @@
         break;
       case keys.execute:
         try {
-          Runner.instance_.stop();
+          stop();
           eval(prompt('Execute:'));
         } catch (err) {
           alert(err);
@@ -72,6 +77,6 @@
     }
   });
   setInterval(()=>{
-    speed(hold[0]*config.speedInc - hold[1]*config.speedInc);
+    speed(hold[0] || hold[1] ? hold[0]*config.speedInc - hold[1]*config.speedInc : 0);
   },100)
 })()
