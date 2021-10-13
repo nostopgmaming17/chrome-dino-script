@@ -5,6 +5,13 @@
   toggle godmode = g
   edit config = c
   execute code = f`)
+  const keys = {
+    speedup:107,
+    slowdown:109,
+    godmode:71,
+    config:67,
+    execute:70
+  }
   if (window.originalG) {
     
   } else {
@@ -26,23 +33,23 @@
         hold = [false,false],
         config = {speedInc: 0.5};
   document.addEventListener('keydown', k=> {
-    switch (k.key) {
-      case '+':
+    switch (k.keyCode) {
+      case keys.speedup:
         hold[0] = true;
         break;
-      case '-':
+      case keys.slowdown:
         hold[1] = true;
         break;
-      case 'g':
+      case keys.godmode:
         togglegodmode();
         break;
-      case 'c':
+      case keys.config:
         Runner.instance_.stop();
         const k = prompt(`Val name (${Object.keys(config)})`),
               v = prompt(`Val value (${config[k]})`);
         config[k] = v;
         break;
-      case 'f':
+      case keys.execute:
         try {
           Runner.instance_.stop();
           eval(prompt('Execute:'));
@@ -53,11 +60,11 @@
     }
   });
   document.addEventListener('keyup', k=>{
-    switch (k.key) {
-      case '+':
+    switch (k.keyCode) {
+      case keys.speedup:
         hold[0] = false;
         break;
-      case '-':
+      case keys.slowdown:
         hold[1] = false;
         break;
     }
