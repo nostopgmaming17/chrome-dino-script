@@ -1,16 +1,20 @@
 (()=>{
-  console.log(`Controls:
+  console.log(`%cControls:
   speed up (hold) = +
   slow down (hold) = -
   toggle godmode = g
   edit config = c
-  execute code = f`)
+  execute code = f
+  toggle set score = v
+  change score = b`,'color:#ff6e19; font-size:25px');
   const keys = {
     speedup:107,
     slowdown:109,
     godmode:71,
     config:67,
-    execute:70
+    execute:70,
+    togglescore:86,
+    changescore:66
   }
   if (window.originalG) {
     
@@ -36,7 +40,7 @@
           hold[1] = false;
         },
         hold = [false,false],
-        config = {speedInc: 0.5};
+        config = {speedInc: 0.5,score:false};
   document.addEventListener('keydown', k=> {
     switch (k.keyCode) {
       case keys.speedup:
@@ -64,6 +68,11 @@
           alert(err);
         }
         break;
+      case keys.togglescore:
+        config.score = !config.score;
+        break;
+      case keys.changescore:
+        config.scoreAmt = prompt("Score amount:");
     }
   });
   document.addEventListener('keyup', k=>{
@@ -78,5 +87,10 @@
   });
   setInterval(()=>{
     speed(hold[0] || hold[1] ? hold[0]*config.speedInc - hold[1]*config.speedInc : 0);
-  },100)
+  },100);
+  setInterval(()=>{
+        if (config.score) {
+      Runner.instance_.distanceRan = config.scoreAmt / Runner.instance_.distanceMeter.config.COEFFICIENT;
+    }
+  })
 })()
