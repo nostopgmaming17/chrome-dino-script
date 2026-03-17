@@ -23,23 +23,23 @@
   if (window.originalG) {
     
   } else {
-    window.originalG = Runner.instance_.gameOver;
+    window.originalG = Runner.getInstance().gameOver;
   }
   const g = window.originalG,
         isgodmode = () => {
-          return Runner.instance_.gameOver == g;
+          return Runner.getInstance().gameOver == g;
         },
         togglegodmode = () => {
           if (isgodmode()) {
-            Runner.instance_.gameOver = () => {};
+            Runner.getInstance().gameOver = () => {};
           } else {
-            Runner.instance_.gameOver = g;
+            Runner.getInstance().gameOver = g;
           }
         }, speed = s => {
-          Runner.instance_.currentSpeed += s;
+          Runner.getInstance().currentSpeed += s;
         },
         stop = () => {
-          Runner.instance_.stop();
+          Runner.getInstance().stop();
           hold[0] = false;
           hold[1] = false;
         },
@@ -104,10 +104,10 @@
   },100);
   setInterval(()=>{
     if (config.score) {
-      Runner.instance_.distanceRan = config.scoreAmt / Runner.instance_.distanceMeter.config.COEFFICIENT;
+      Runner.getInstance().distanceRan = config.scoreAmt / Runner.getInstance().distanceMeter.config.COEFFICIENT;
     }
     if (config.setY) {
-      Runner.instance_.tRex.yPos = config.y;
+      Runner.getInstance().tRex.yPos = config.y;
     }
   })
 })()
